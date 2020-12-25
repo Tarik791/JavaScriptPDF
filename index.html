@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+
+
+<div id="capture" style="padding: 10px; background: #f5da55">
+  <h4 style="color: #000; ">Hello world!</h4>
+
+  <div class="canvas_div_pdf">
+    <table class="table" style="width: 1200px; border: solid 1px #333; padding: 10px;">
+      <thead>
+        <tr>
+          <th scope="col"> Federacija Bosne i Hercegovine
+         <br> Federalno ministarstvo <br>
+    finansija/financija Porezna uprava</th>
+          <th scope="col">Obrazac JS3100<br>Prijava/Promjena/Odjava osiguranja</th>
+            <th>Bar kod</th>
+        </tr>
+      </thead>
+      <tr>
+      </tr>
+      <tbody>
+        <tr>
+          <th scope="row">Prvi dio-Podaci o obvezniku uplate doprinosa</th>
+          <td>1) JIB/JMB
+          <input style="color:blue;" type="number" name="brojfirme" ></td>
+          <td>2) Naziv obvezniku uplate doprinosa:
+          <br>
+          <input style="color:blue;" type="text" name="nazivfirme" ></td>
+          <td>3) Adresa obveznika uplate doprinosa:
+          <br>
+          <input style="color:blue;" type="text" name="adresafirme" ></td>
+          <td>4) Grad i poštanski broj: <input style="color:blue;" type="text" name="gradfirme" >
+                    <br>
+                    <input style="color:blue;" type="number" name="postanskibrojfirme" ></td>
+          <td>5) Šifra općine
+          <input type="password" name="sifraopcine" ></td>
+          <td>
+          6) Vrste Prijave: 
+          <br>
+          Prijava osiguranja:
+                <input type="radio" name="gender" value="PO">
+                <br>
+                Odjava osiguranja:
+                <input type="radio" name="gender" value="OO">
+                <br>
+                Promjena podataka o osiguranju: 
+                <input type="radio" name="gender" value="POOS">
+          </td>
+          <td>
+            7) Telefon:
+            <input style="color:blue;" type="tel" name="telefonfirme" >
+    <br>
+            8) E-mail:
+            <input style="color:blue;" type="email" name="emailfirme" >
+    
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Drugi dio - Podaci o osiguraniku</th>
+          <td>JMB ili licni identifikacioni broj(za strance):<input type="number" name="licnibroj" ></td>
+          <td>2 Prezime i ime osiguranika:<input type="username" name="imeiprezimekorisnika"></td>
+          <td>Datum rođenja:<input type="date" name="datumrodjenjakorisnika"></td>
+          <td>Spol:
+          <br>
+          Ženski: <input type="radio" name="gender1" value="Muško" id="">
+          Muški: <input type="radio" name="gender1" value="Žensko" id="">
+          </td>
+          <td> 5 Adresa prebivalista 
+                    <input style="color:blue;" type="text" name="licnaadresa" id=""></td>
+          <td>6 E-mail adresa
+                    <input style="color:blue;" type="email" name="licniemail" id=""></td>
+          <td> 7 Strucna sprema
+          <br>
+                DR <input type="radio" name="gender2" value="DR"> MR <input type="radio" name="gender2" value="MR"> VSS <input type="radio" name="gender2" value="VSS"> VŠS <input type="radio" name="gender2" value="VŠS"> SSS <input type="radio" name="gender2" value="SSS"> NIŽA <input type="radio" name="gender2" value="NIŽA"> VKV <input type="radio" name="gender2" value="VKV"> KV <input type="radio" name="gender2" value="KV"> PK <input type="radio" name="gender2" value="PK"> NK <input type="radio" name="gender2" value="NK"></td>
+        </tr>
+        <tr>
+          <th scope="row">Treći dio – Podaci o osiguranju</th>
+          <td>1</td>
+          <td>Dnevno radno:
+          <br>Sati: <input style="color:blue;" type="time" name="sati">
+                    <br>
+                     Minuta: <input style="color:blue;" type="time" 
+                        name="minute"></td>
+          <td>2</td>
+          <td>Stručna sprema koja se traži na radnom 
+          <br>
+                          DR <input type="radio" name="gender3" value="DR"> MR <input type="radio" name="gender3" value="MR"> VSS <input type="radio" name="gender3" value="VSS"> VŠS <input type="radio" name="gender3" value="VŠS"> SSS <input type="radio" name="gender3" value="SSS"> NIŽA <input type="radio" name="gender3" value="NIŽA"> VKV <input type="radio" name="gender3" value="VKV"> KV <input type="radio" name="gender3" value="KV"> PK <input type="radio" name="gender3" value="PK"> NK <input type="radio" name="gender3" value="NK"></td>
+          <td>3</td>
+          <td> Datum prijave/odjave/promjene osiguranja                <input type="text" name="datumprijave">
+          </td>
+        </tr>
+        <form action="UserInfo.php" method="post">
+        <input type="submit" name="" id="" value="send">
+     </form>
+    
+      </tbody>
+    </table>
+    <button onclick="getPDF()">save</button>
+    </div>
+</div>
+
+<script>
+
+html2canvas(document.querySelector("#capture")).then(canvas => {
+    document.body.appendChild(canvas)
+});
+function getPDF(){
+
+var HTML_Width = $(".canvas_div_pdf").width();
+var HTML_Height = $(".canvas_div_pdf").height();
+var top_left_margin = 15;
+var PDF_Width = HTML_Width+(top_left_margin*2);
+var PDF_Height = (PDF_Width*1.5)+(top_left_margin*2);
+var canvas_image_width = HTML_Width;
+var canvas_image_height = HTML_Height;
+
+var totalPDFPages = Math.ceil(HTML_Height/PDF_Height)-1;
+
+
+html2canvas($(".canvas_div_pdf")[0],{allowTaint:true}).then(function(canvas) {
+  canvas.getContext('2d');
+  
+  console.log(canvas.height+"  "+canvas.width);
+  
+  
+  var imgData = canvas.toDataURL("image/jpeg", 1.0);
+  var pdf = new jsPDF('p', 'pt',  [PDF_Width, PDF_Height]);
+    pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin,canvas_image_width,canvas_image_height);
+  
+  
+  for (var i = 1; i <= totalPDFPages; i++) { 
+    pdf.addPage(PDF_Width, PDF_Height);
+    pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
+  }
+  
+    pdf.save("HTML-Document.pdf");
+    });
+};
+</script>
+
+
+
+</body>
+</html>
